@@ -14,7 +14,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     {
         var polls = _pollService.GetAll();
         return Ok(polls.MapToResponse());
-    }
+    } 
 
     [HttpGet("{id}")]
     public IActionResult Get([FromRoute] int id)
@@ -27,6 +27,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     public IActionResult Create([FromBody] PollRequest pollRequest)
     {
        var poll =  _pollService.Add(pollRequest.MapToPoll());
+
         return CreatedAtAction(nameof(Get), new { id = poll.Id }, poll.MapToResponse());
     }
 
@@ -34,6 +35,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     public IActionResult Update([FromRoute] int id, [FromBody] PollRequest pollRequest)
     {
         var isUpdated = _pollService.Update(id, pollRequest.MapToPoll());
+
         return isUpdated ? NoContent() : NotFound();
     }
 
@@ -41,6 +43,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     public IActionResult Delete([FromRoute] int id)
     {
         var isDeleted = _pollService.Delete(id);
+
         return isDeleted ? NoContent() : NotFound();
     }
 
