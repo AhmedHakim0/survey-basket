@@ -11,7 +11,10 @@ public static class PollsMapping
         return new Poll
         {
             Title = pollRequest.Title,
-            Description = pollRequest.Description
+            Summary = pollRequest.Summary,
+            IsPublished = pollRequest.IsPublished,
+            StartsAt = pollRequest.StartsAt,
+            EndsAt = pollRequest.EndsAt
         };
     }
 
@@ -21,7 +24,10 @@ public static class PollsMapping
         (
              poll.Id,
              poll.Title,
-             poll.Description
+             poll.Summary,
+             poll.IsPublished,
+             poll.StartsAt,
+             poll.EndsAt
         );
     }
 
