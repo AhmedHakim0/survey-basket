@@ -12,7 +12,6 @@ public static class PollsMapping
         {
             Title = pollRequest.Title,
             Summary = pollRequest.Summary,
-            IsPublished = pollRequest.IsPublished,
             StartsAt = pollRequest.StartsAt,
             EndsAt = pollRequest.EndsAt
         };
