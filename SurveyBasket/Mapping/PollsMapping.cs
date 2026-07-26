@@ -1,5 +1,4 @@
-﻿using SurveyBasket.Contracts.Requests;
-using SurveyBasket.Contracts.Responses;
+﻿using SurveyBasket.Contracts.Poll;
 using System.Runtime.CompilerServices;
 
 namespace SurveyBasket.Mapping;

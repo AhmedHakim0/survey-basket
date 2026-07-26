@@ -1,4 +1,4 @@
-﻿namespace SurveyBasket.Contracts.Requests;
+﻿namespace SurveyBasket.Contracts.Poll;
 
 public record PollRequest(
     string Title,

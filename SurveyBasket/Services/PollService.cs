@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-
+﻿
 namespace SurveyBasket.Services;
 
 public class PollService(ApplicationDbContext context) : IPollService
@@ -52,5 +51,4 @@ public class PollService(ApplicationDbContext context) : IPollService
     }
 
 
-    
 }
