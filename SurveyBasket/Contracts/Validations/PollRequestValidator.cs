@@ -23,6 +23,4 @@ public class PollRequestValidator : AbstractValidator<PollRequest>
             .NotEmpty()
             .GreaterThan(x => x.StartsAt);
     }
-
-   
 }

@@ -39,7 +39,6 @@ public class PollService(ApplicationDbContext context) : IPollService
         }
         return false;
     }
-
     public async Task<bool> TogglePublishAsync(int id, CancellationToken cancellationToken = default)
     {
         var CurrentPoll = await GetAsync(id);
@@ -51,4 +50,7 @@ public class PollService(ApplicationDbContext context) : IPollService
         }
         return false;
     }
+
+
+    
 }
