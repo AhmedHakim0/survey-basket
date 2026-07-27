@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Identity;
+using SurveyBasket.Authentication;
 
 namespace SurveyBasket;
 
@@ -48,6 +49,7 @@ public  static class DependancyInjection
     }
     public static IServiceCollection AddAuthConfig(this IServiceCollection services)
     {
+        services.AddSingleton<IJwtProvidor, JwtProvidor>();
         services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
