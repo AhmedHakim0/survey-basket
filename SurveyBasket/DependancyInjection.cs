@@ -1,6 +1,4 @@
 ﻿
-using Microsoft.AspNetCore.Identity;
-using SurveyBasket.Authentication;
 
 namespace SurveyBasket;
 
