@@ -1,4 +1,5 @@
-﻿using SurveyBasket.Contracts.Poll;
+﻿using Microsoft.AspNetCore.Authorization;
+using SurveyBasket.Contracts.Poll;
 using SurveyBasket.Mapping;
 
 namespace SurveyBasket.Controllers;
@@ -10,6 +11,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     private readonly IPollService _pollService = pollService;
 
     [HttpGet("")]
+    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var polls = await _pollService.GetAllAsync();
@@ -53,4 +55,6 @@ public class PollsController(IPollService pollService) : ControllerBase
         var isToggled = await _pollService.TogglePublishAsync(id, cancellationToken);
         return isToggled ? NoContent() : NotFound();
     }
+
+
 }

@@ -6,6 +6,7 @@ namespace SurveyBasket.Controllers;
 public class AuthController(IAuthService authService) : ControllerBase
 {
     private readonly IAuthService _authService = authService;
+    
 
     [HttpPost("")]
     public async Task<IActionResult> LoginAsync([FromBody] AuthRequest request,CancellationToken cancellationToken)
@@ -15,4 +16,5 @@ public class AuthController(IAuthService authService) : ControllerBase
         return AuthResult is null ? BadRequest("Invalid email or password") : Ok(AuthResult);
     }
 
+   
 }
