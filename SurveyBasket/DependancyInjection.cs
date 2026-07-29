@@ -1,8 +1,4 @@
-﻿
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-namespace SurveyBasket;
+﻿namespace SurveyBasket;
 
 public  static class DependancyInjection
 {
