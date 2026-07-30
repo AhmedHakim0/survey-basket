@@ -1,8 +1,11 @@
 ﻿
 namespace SurveyBasket.Authentication;
 
-public class JwtProvidor : IJwtProvidor
+public class JwtProvidor(IConfiguration configuration) : IJwtProvidor
 {
+    private readonly IConfiguration _configuration = configuration;
+
+    
     public (string token, int expiresIn) GenerateToken(ApplicationUser user)
     {
         Claim[] claims = new Claim[] {
@@ -13,7 +16,7 @@ public class JwtProvidor : IJwtProvidor
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("u3pUxTfOnt3BinjY5u2Xdt0wqzNY1NDw")); 
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:Key"]!)); 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
         var ExpiresIn = 30; 
@@ -21,13 +24,13 @@ public class JwtProvidor : IJwtProvidor
         var expirationTime = DateTime.UtcNow.AddMinutes(ExpiresIn);
 
         var token= new JwtSecurityToken(
-            issuer: "SurveyBasket",
-            audience: "SurveyBasketApp users",
+            issuer: _configuration["jwt:issuer"],
+            audience: _configuration["jwt:Audience"],
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(ExpiresIn),
+            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["jwt:ExpireMinutes"])),
             signingCredentials: signingCredentials
         );
 
-        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: ExpiresIn);
+        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: Convert.ToInt32(_configuration["jwt:ExpireMinutes"]));
     }
 }
