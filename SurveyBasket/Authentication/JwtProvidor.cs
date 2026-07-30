@@ -1,11 +1,12 @@
 ﻿
+using Microsoft.Extensions.Options;
+
 namespace SurveyBasket.Authentication;
 
-public class JwtProvidor(IConfiguration configuration) : IJwtProvidor
+public class JwtProvidor(IOptionsSnapshot<JwtOptions> jwtOptions) : IJwtProvidor
 {
-    private readonly IConfiguration _configuration = configuration;
+    private readonly IOptionsSnapshot<JwtOptions> _jwtOptions = jwtOptions;
 
-    
     public (string token, int expiresIn) GenerateToken(ApplicationUser user)
     {
         Claim[] claims = new Claim[] {
@@ -16,21 +17,21 @@ public class JwtProvidor(IConfiguration configuration) : IJwtProvidor
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:Key"]!)); 
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Value.Key)); 
         var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
-        var ExpiresIn = 30; 
+        
 
-        var expirationTime = DateTime.UtcNow.AddMinutes(ExpiresIn);
+        var expirationTime = DateTime.UtcNow.AddMinutes(_jwtOptions.Value.ExpiryMinutes);
 
         var token= new JwtSecurityToken(
-            issuer: _configuration["jwt:issuer"],
-            audience: _configuration["jwt:Audience"],
+            issuer: _jwtOptions.Value.issuer,
+            audience: _jwtOptions.Value.audience,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(_configuration["jwt:ExpireMinutes"])),
+            expires: expirationTime,
             signingCredentials: signingCredentials
         );
 
-        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: Convert.ToInt32(_configuration["jwt:ExpireMinutes"]));
+        return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: Convert.ToInt32(_jwtOptions.Value.ExpiryMinutes));
     }
 }

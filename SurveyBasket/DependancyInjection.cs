@@ -1,4 +1,6 @@
-﻿namespace SurveyBasket;
+﻿using Microsoft.Extensions.Options;
+
+namespace SurveyBasket;
 
 public  static class DependancyInjection
 {
@@ -45,10 +47,18 @@ public  static class DependancyInjection
     }
     public static IServiceCollection AddAuthConfig(this IServiceCollection services, IConfiguration _configuration)
     {
-        
-        services.AddSingleton<IJwtProvidor, JwtProvidor>();
+       // services.Configure<JwtOptions>(_configuration.GetSection(JwtOptions.SectionName));
+       services.AddOptions<JwtOptions>()
+                .Bind(_configuration.GetSection(JwtOptions.SectionName))
+                .ValidateDataAnnotations()
+                .ValidateOnStart();
+
+        var jwtSettings = _configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>();
+
+        services.AddScoped<IJwtProvidor, JwtProvidor>();
         services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+        
        services.AddAuthentication(options =>
         {
             options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -62,9 +72,9 @@ public  static class DependancyInjection
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
-                ValidIssuer = _configuration["jwt:issuer"],
-                ValidAudience = _configuration["jwt:Audience"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["jwt:Key"]!))
+                ValidIssuer = jwtSettings!.issuer,
+                ValidAudience = jwtSettings.audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Key))
             };
         });
         return services;
