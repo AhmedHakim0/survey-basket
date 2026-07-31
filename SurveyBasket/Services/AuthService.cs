@@ -32,5 +32,5 @@ public class AuthService(UserManager<ApplicationUser> userManager, IJwtProvidor 
         );
     }
 
-   
+  
 }

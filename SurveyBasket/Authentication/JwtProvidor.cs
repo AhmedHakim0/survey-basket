@@ -9,7 +9,7 @@ public class JwtProvidor(IOptionsSnapshot<JwtOptions> jwtOptions) : IJwtProvidor
 
     public (string token, int expiresIn) GenerateToken(ApplicationUser user)
     {
-        Claim[] claims = new Claim[] {
+        Claim[] claims =  {
             new(JwtRegisteredClaimNames.Sub, user.Id),
             new(JwtRegisteredClaimNames.Email, user.Email!),
             new(JwtRegisteredClaimNames.GivenName, user.FirstName!),
@@ -33,5 +33,33 @@ public class JwtProvidor(IOptionsSnapshot<JwtOptions> jwtOptions) : IJwtProvidor
         );
 
         return (token: new JwtSecurityTokenHandler().WriteToken(token), expiresIn: Convert.ToInt32(_jwtOptions.Value.ExpiryMinutes));
+    }
+
+    public string? ValidateToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtOptions.Value.Key));
+
+        try
+        {
+            tokenHandler.ValidateToken(token, new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = symmetricSecurityKey,
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ClockSkew = TimeSpan.Zero
+
+            }, out SecurityToken validatedToken);
+
+             var jwtToken = (JwtSecurityToken)validatedToken;
+
+            return jwtToken.Claims.First(x => x.Type == JwtRegisteredClaimNames.Sub).Value;
+        }
+        catch
+        {
+            return null;
+        }
+
     }
 }
