@@ -1,6 +1,8 @@
-﻿namespace SurveyBasket.Entites;
+﻿using System.Reflection.PortableExecutable;
 
-public class Poll
+namespace SurveyBasket.Entites;
+
+public class Poll : AuditableEntity
 {
     public int Id { get; set; }
     public string Title { get; set; }=string.Empty;
@@ -9,4 +11,5 @@ public class Poll
     public bool IsPublished { get; set; }
     public DateOnly StartsAt { get; set; }
     public DateOnly EndsAt { get; set; }
+
 }

@@ -6,12 +6,12 @@ namespace SurveyBasket.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
+[Authorize]
 public class PollsController(IPollService pollService) : ControllerBase
 {
     private readonly IPollService _pollService = pollService;
 
     [HttpGet("")]
-    [Authorize]
     public async Task<IActionResult> GetAll()
     {
         var polls = await _pollService.GetAllAsync();
@@ -50,7 +50,7 @@ public class PollsController(IPollService pollService) : ControllerBase
     }
 
     [HttpPut("{id}/TogglePublish")]
-    public async Task<IActionResult> TogglePublish([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<IActionResult> TogglePublish( int id, CancellationToken cancellationToken)
     {
         var isToggled = await _pollService.TogglePublishAsync(id, cancellationToken);
         return isToggled ? NoContent() : NotFound();
