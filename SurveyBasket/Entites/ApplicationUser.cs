@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
+﻿
 namespace SurveyBasket.Entites;
 
 public class ApplicationUser : IdentityUser

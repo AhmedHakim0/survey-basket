@@ -1,6 +1,4 @@
-﻿using SurveyBasket.Contracts.Poll;
-using System.Runtime.CompilerServices;
-
+﻿
 namespace SurveyBasket.Mapping;
 
 public static class PollsMapping

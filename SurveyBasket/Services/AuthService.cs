@@ -1,7 +1,4 @@
 ﻿
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System.Security.Cryptography;
-
 namespace SurveyBasket.Services;
 
 public class AuthService(UserManager<ApplicationUser> userManager, IJwtProvidor jwtProvidor) : IAuthService

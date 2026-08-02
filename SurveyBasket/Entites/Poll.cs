@@ -1,5 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
+﻿
 namespace SurveyBasket.Entites;
 
 public class Poll : AuditableEntity
