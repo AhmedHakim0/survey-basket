@@ -1,5 +1,4 @@
-﻿
-namespace SurveyBasket.Authentication;
+﻿namespace SurveyBasket.Authentication;
 
 public class JwtOptions
 {

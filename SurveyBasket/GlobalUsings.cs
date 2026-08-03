@@ -20,13 +20,12 @@ global using System.Text;
 global using Microsoft.AspNetCore.Identity;
 global using SurveyBasket.Authentication;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
-global using Microsoft.AspNetCore.Http.HttpResults;
 global using System.ComponentModel.DataAnnotations;
 
-global using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
+
 global using System.Security.Cryptography;
 global using SurveyBasket.Contracts.Poll;
-global using System.Runtime.CompilerServices;
 global using Microsoft.AspNetCore.Authorization;
 
 global using SurveyBasket.Mapping;
+global using Microsoft.Extensions.Options;
