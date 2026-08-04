@@ -2,6 +2,6 @@
 
 public interface IAuthService
 {
-    Task<AuthResponse?> GenerateToken(string email, string password, CancellationToken cancellationToken);
-    Task<AuthResponse?> GenerateRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken);
+    Task<Result<AuthResponse>> GenerateToken(string email, string password, CancellationToken cancellationToken);
+    Task<Result<AuthResponse>> GenerateRefreshTokenAsync(string token, string refreshToken, CancellationToken cancellationToken);
 }

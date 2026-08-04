@@ -29,3 +29,5 @@ global using Microsoft.AspNetCore.Authorization;
 
 global using SurveyBasket.Mapping;
 global using Microsoft.Extensions.Options;
+global using SurveyBasket.Abstractions;
+global  using SurveyBasket.Errors;

@@ -12,7 +12,7 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         var AuthResult = await _authService.GenerateToken(request.Email, request.Password, cancellationToken);
 
-        return AuthResult is null ? BadRequest("Invalid email or password") : Ok(AuthResult);
+        return AuthResult.IsSuccess ? Ok(AuthResult.Value): BadRequest(AuthResult.Error) ;
     }
 
     [HttpPost("refresh")]
@@ -20,6 +20,6 @@ public class AuthController(IAuthService authService) : ControllerBase
     {
         var AuthResult = await _authService.GenerateRefreshTokenAsync(request.Token, request.RefreshToken, cancellationToken);
 
-        return AuthResult is null ? BadRequest("Invalid token or refresh token") : Ok(AuthResult);
+        return AuthResult.IsSuccess ? Ok(AuthResult.Value): BadRequest(AuthResult.Error) ;
     }
 }
