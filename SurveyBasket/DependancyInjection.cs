@@ -12,7 +12,17 @@ public  static class DependancyInjection
                 .AddFluentValidationConfig()
                 .AddRegisteredConfig()
                 .AddAuthConfig(configuration);
-        
+
+        services.AddCors(options =>
+        {
+            options.AddDefaultPolicy( builder =>
+            
+                builder
+                       .AllowAnyMethod()
+                       .AllowAnyHeader()
+                       .WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>()!)
+            );
+        });
 
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 
