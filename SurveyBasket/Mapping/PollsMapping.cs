@@ -1,5 +1,4 @@
-﻿
-namespace SurveyBasket.Mapping;
+﻿namespace SurveyBasket.Mapping;
 
 public static class PollsMapping
 {
